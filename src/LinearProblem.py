@@ -7,16 +7,6 @@ def firstNeg(vec):
             return i
     return -1
 
-def illimitateOpt(A):
-    if np.any(A[0,:]<0):
-        m,n = A.shape
-        for i in range(n):
-            if A[0,:][i]<0:
-                for j in range(m):
-                    if A[j][i] > 0:
-                        return False
-        return True
-
 class LinearProblem:
     #Private Methods
     def __inbase(self):
@@ -31,7 +21,7 @@ class LinearProblem:
 
     def __simplex(self):
         m,n = self.T.shape
-        while np.any(self.T[0,:]<0) and not illimitateOpt(self.T):
+        while np.any(self.T[0,:]<0) and not self.__illimitateOpt():
             A = self.T
             idx = firstNeg(self.T[0,:])
             quotient = 10000*np.ones(m)
@@ -60,6 +50,18 @@ class LinearProblem:
         return sol
     
 
+    def __illimitateOpt(self):
+        if np.any(self.T[0,:]<0):
+            m,n = self.T.shape
+            for i in range(n):
+                if self.T[0,:][i]<0:
+                    for j in range(m):
+                        if self.T[j][i] > 0:
+                            return False
+                    self.noLimit = True
+                    return True
+
+
     #Constructors
     def __init__(self,A,b,c):
         m,n = A.shape
@@ -73,11 +75,12 @@ class LinearProblem:
         self.T[1:m+1,n] = b
         self.T[1:m+1,0:n] = A
         
+        self.noLimit = False
 
     #Public methods
     def optimum(self):
         #Check if Simplex stopped cause of Illimitate Optimun:
-        if illimitateOpt(self.T):
+        if self.noLimit:
             #print(self.T)
             return "inf, Illimitate Optimum!"
         return self.T[0,-1]
@@ -89,8 +92,8 @@ class LinearProblem:
             m = len(self.T[:]) - 1
             base = ""
             for i in range(m-1):
-                base += ("x" + str(self.__inbase()[i] + 1) + ", ")
-            base += ("x" + str(self.__inbase()[m-1] + 1))
-            if illimitateOpt(self.T):
+                base += ("x" + str(self.__inbase()[i]) + ", ")
+            base += ("x" + str(self.__inbase()[m-1]))
+            if self.noLimit==True:
                 return base, np.ones(m) * np.inf
             return base, self.__solution()
