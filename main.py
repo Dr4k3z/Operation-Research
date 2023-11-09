@@ -1,6 +1,6 @@
 import numpy as np
 import time
-from LinearProblem import LinearProblem
+from src.LinearProblem import LinearProblem
 
 '''
             What's next??
@@ -40,7 +40,7 @@ def main():
     c = np.array([-1,3,5,-2]) 
     prob = LinearProblem(A,b,c)
     sol = prob.solve("simplex")
-    print("Variables in base:", sol[0], "Corrispective values:", sol[1])
+    print("Variables in base:", sol[0], "\nCorrispective values:", sol[1])
     print("Optimum:", prob.optimum())
 
 if __name__=="__main__":
