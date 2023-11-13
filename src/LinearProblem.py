@@ -19,8 +19,53 @@ class LinearProblem:
         return base
 
 
+    def __phase1(self):
+        m,n = self.__constraint.shape
+        # Building phase one tableau
+        S = np.zeros([m+1,n+m+1])
+        S[0,:(n+m)] = np.concatenate((np.zeros(n),np.ones(m)))
+        S[1:,:n] = self.__constraint
+        S[1:,-1] = self.__coefficient
+        S[1:,n:n+m] = np.eye(m)
+
+        #print(S)
+
+        # Simplex iteration
+        for i in range(1,m+1):
+            S[0,:] = S[0,:] - S[i,:]
+        while np.any(S[0,:(n+m)]<0):
+            A = S
+            idx = firstNeg(S[0,:])
+            quotient = 10000*np.ones(m+1)
+            for j in range(1,m+1):
+                if S[j,idx] > 0:
+                    quotient[j] = S[j,-1]/S[j,idx]
+            j = int(np.argwhere(quotient==np.min(quotient))[0]) #for Bland's rule, we shall take the first
+            p,q = j,idx #pivot
+            print("pivot: ",p,",",q)
+        
+            A[p,:] = S[p,:]/S[p,q]
+            for j in range(m):
+                if j!=p:
+                    A[j,:] = S[j,:] - (S[p,:]/S[p,q])*S[j,q]
+            S = A
+
+        if S[0,-1]==0:
+            print("Problema ammissibile!")
+            return 
+        else:
+            print("Problema non ammissibile")
+
     def __simplex(self):
         m,n = self.T.shape
+
+        # Is there an initial basis to start from?
+        base = self.__inbase()
+        if base==[]:
+            # No basis is found ==> Phase I
+            print("fase 1")
+            self.__phase1()
+            
         while np.any(self.T[0,:]<0) and not self.__illimitateOpt():
             A = self.T
             idx = firstNeg(self.T[0,:])
@@ -76,6 +121,9 @@ class LinearProblem:
         self.T[1:m+1,0:n] = A
         
         self.noLimit = False
+        self.__constraint = A
+        self.__coefficient = b
+        self.__objective = c
 
     #Public methods
     def optimum(self):

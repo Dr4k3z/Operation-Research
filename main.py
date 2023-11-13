@@ -23,21 +23,22 @@ from src.LinearProblem import LinearProblem
     problem. 
 '''
 def main():
-    A = np.array([[1,2,3,1],
+    '''A = np.array([[1,2,3,1],
                   [2,1,1,2]])
     b = np.array([3,4])
     c = np.array([-1,-3,-5,-2]) 
     prob = LinearProblem(A,b,c)
     sol = prob.solve("simplex")
     print("Variables in base:", sol[0], "\nCorrispective values:", sol[1])
-    print("Optimum:", prob.optimum())
+    print("Optimum:", prob.optimum())'''
+    
 
     #Illimitate Problem example:
     print()
-    A = np.array([[1,-2,1,0],
-                  [-2,-1,0,1]])
-    b = np.array([3,4])
-    c = np.array([-1,3,5,-2]) 
+    A = np.array([[2,1,1],
+                  [1,1,2]])
+    b = np.array([6,2])
+    c = np.array([3,1,1]) 
     prob = LinearProblem(A,b,c)
     sol = prob.solve("simplex")
     print("Variables in base:", sol[0], "\nCorrispective values:", sol[1])
