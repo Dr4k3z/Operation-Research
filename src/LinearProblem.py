@@ -56,6 +56,7 @@ class LinearProblem:
         else:
             print("Problema non ammissibile")
 
+
     def __simplex(self):
         m,n = self.T.shape
 

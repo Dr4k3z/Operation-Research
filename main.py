@@ -1,6 +1,7 @@
 import numpy as np
 import time
 from src.LinearProblem import LinearProblem
+from src.Graph import Vertex,Graph
 
 '''
             What's next??
@@ -22,7 +23,7 @@ from src.LinearProblem import LinearProblem
 5)  Implement other methods to solve a linear programming 
     problem. 
 '''
-def main():
+def linearProblem():
     '''A = np.array([[1,2,3,1],
                   [2,1,1,2]])
     b = np.array([3,4])
@@ -44,9 +45,21 @@ def main():
     print("Variables in base:", sol[0], "\nCorrispective values:", sol[1])
     print("Optimum:", prob.optimum())
 
+def graphProblem():
+    N = ['a','b','c']
+    A = [[1,2],[2,3],[3,4]]
+    graph = Graph()
+    [graph.add_vertex(node) for node in N]
+    print(graph)
+
+    v1 = Vertex(N[0])
+    v2 = Vertex(N[1])
+    v1.add_neighbor(v2)
+    print(v1)
+
 if __name__=="__main__":
     begin = time.time()
-    main()
+    graphProblem()
     end = time.time()
     delta = 1000*(end-begin)
-    print("time elapsed: ",delta)
+    #print("time elapsed: ",delta)
