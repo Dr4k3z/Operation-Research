@@ -1,7 +1,7 @@
 import numpy as np
 import time
 from src.LinearProblem import LinearProblem
-from src.Graph import Vertex,Graph
+from src.Graph import Node,Graph
 
 '''
             What's next??
@@ -22,6 +22,14 @@ from src.Graph import Vertex,Graph
     
 5)  Implement other methods to solve a linear programming 
     problem. 
+
+6)  Define graphs and related problems (connectivity, mininum cost tree,
+    covarage et cetera) and algorithms to solve them
+
+7)  Develop smart way to visualize graphs 
+
+8)  Graphical interpretation of linear programming problems, only in 
+    two dimensions
 '''
 def linearProblem():
     '''A = np.array([[1,2,3,1],
@@ -48,14 +56,21 @@ def linearProblem():
 def graphProblem():
     N = ['a','b','c']
     A = [[1,2],[2,3],[3,4]]
+    n1 = Node('a',10)
+    n2 = Node('b',20)
+    n3 = Node('c',30)
+    n1.connect(n2,"Forward")
+    n1.connect(n3,"Backward")
+    
     graph = Graph()
-    [graph.add_vertex(node) for node in N]
+    graph.addNode(n1)
+    graph.addNode(n2)
+    graph.addArch([n1,n2])
+    graph.addArch([n2,n3])
+    graph.addArch([n3,n1])
     print(graph)
-
-    v1 = Vertex(N[0])
-    v2 = Vertex(N[1])
-    v1.add_neighbor(v2)
-    print(v1)
+    print(graph.getValue('c'))
+    print(graph.getValue('d'))
 
 if __name__=="__main__":
     begin = time.time()
