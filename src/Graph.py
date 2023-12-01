@@ -2,6 +2,8 @@
 #https://www.bogotobogo.com/python/python_graph_data_structures.php#:~:text=A%20graph%20can%20be%20represented,%2Cv%20%5Cin%20V%24.
 
 
+import numpy as np
+
 class Vertex:
     #Constructors
     def __init__(self,node):
@@ -26,57 +28,12 @@ class Vertex:
     def get_connections(self):
         return self.__adjacent.keys()  
 
-
-'''
-class Graph:
-    #Constructors
-    def __init__(self):
-        self.__vert_dict = {}
-        self.__num_vertices = 0
-
-    #Overloaded methods
-    def __iter__(self):
-        return iter(self.vert_dict.values())
-    
-    def __str__(self):
-        new_str = ""
-        for vert in self.__vert_dict:
-            print(str(vert))
-            new_str += str(vert) 
-        return new_str
-
-    #Public methods
-    def add_vertex(self, node):
-        self.num_vertices = self.__num_vertices + 1
-        new_vertex = Vertex(node)
-        self.__vert_dict[node] = new_vertex
-        return new_vertex
-
-    def add_edge(self, frm, to, cost = 0):
-        if frm not in self.__vert_dict:
-            self.add_vertex(frm)
-        if to not in self.__vert_dict:
-            self.add_vertex(to)
-
-        self.__vert_dict[frm].add_neighbor(self.__vert_dict[to], cost)
-        self.__vert_dict[to].add_neighbor(self.__vert_dict[frm], cost)
-
-    #Getters and setters
-    def get_vertex(self, n):
-        if n in self.__vert_dict:
-            return self.__vert_dict[n]
-        else:
-            return None
-
-    def get_vertices(self):
-        return self.__vert_dict.keys()
-'''
-
 class Node:
     #Constructors
     def __init__(self,name,val):
         self.__id = name
         self.value = val
+        self.cost = 0
         self.__forwardStar = []
         self.__backwardStar = []
 
@@ -96,6 +53,12 @@ class Node:
     #Getters
     def getId(self):
         return self.__id
+    
+    def getFS(self):
+        return self.__forwardStar
+    
+    def getBS(self):
+        return self.__backwardStar
     
 class Graph:
     #Constructors
@@ -129,6 +92,43 @@ class Graph:
         self.__nodes[arch[0].getId()].connect(arch[1],dir) # One direction
         self.__arches.append(arch)
         
+
+    def findPath(self,s,t):
+        # Initialization
+        P = {}
+        for node in self.__nodes:
+            P[node] = 0
+        P[s.getId()] = s.getId()
+        Q = [s]
+
+        while Q!=[]:
+            curr = Q[0]
+            del Q[0]
+            if curr==t:
+                #print(P)
+                return P
+            
+            for node in curr.getFS():
+                if P[node.getId()] == 0:
+                    P[node.getId()] = curr.getId()
+                    Q.append(node)
+            if Q==[]:
+                return False
+
+    def isConnected(self):
+        # returns True if the graph is fully connected
+        pass
+
+    def isCyclic(self):
+        pass
+
+    def isNegative(self):
+        # returns True if the graph has negative costs
+        for n in self.__nodes:
+            if n.cost < 0:
+                return True
+        return False
+
     #Getters
     def getValue(self,id):
         try:
