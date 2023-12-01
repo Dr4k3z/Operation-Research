@@ -2,6 +2,7 @@ import numpy as np
 import time
 from src.LinearProblem import LinearProblem
 from src.Graph import Node,Graph
+from src.PlotGraph import drawTree
 
 '''
             What's next??
@@ -75,6 +76,7 @@ def graphProblem():
     graph.addNode(n4)
     graph.addNode(n5)
 
+    drawTree(graph)
     print(graph.findPath(n1,n5))
 
 if __name__=="__main__":

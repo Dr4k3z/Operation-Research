@@ -1,33 +1,6 @@
 # this implementation is inspired by this tutorial:
 #https://www.bogotobogo.com/python/python_graph_data_structures.php#:~:text=A%20graph%20can%20be%20represented,%2Cv%20%5Cin%20V%24.
 
-
-import numpy as np
-
-class Vertex:
-    #Constructors
-    def __init__(self,node):
-        self.__id = node
-        self.__adjacent = {} #dictionary
-    
-    #Overloaded methods
-    def __str__(self):
-        return str(self.__id) + ' adjacent: ' + str([x.__id for x in self.__adjacent]) + "\n"
-
-    #Public methods
-    def add_neighbor(self, neighbor, weight=0):
-        self.__adjacent[neighbor] = weight
-
-    #Getters and setters
-    def get_id(self):
-        return self.__id
-
-    def get_weight(self, neighbor):
-        return self.__adjacent[neighbor]
-    
-    def get_connections(self):
-        return self.__adjacent.keys()  
-
 class Node:
     #Constructors
     def __init__(self,name,val):
@@ -36,6 +9,8 @@ class Node:
         self.cost = 0
         self.__forwardStar = []
         self.__backwardStar = []
+
+        self.coordinates = [] #for graphical porpouse
 
     #Overloaded methods
     def __str__(self):
@@ -136,3 +111,9 @@ class Graph:
         except:
             print("Error! Wrong id")
             return None
+        
+    def getNodes(self):
+        return self.__nodes
+    
+    def getArches(self):
+        return self.__arches
