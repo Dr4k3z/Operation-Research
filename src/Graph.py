@@ -40,6 +40,7 @@ class Graph:
     def __init__(self):
         self.__nodes = {} #dictionary key is node id
         self.__arches = [] #arch is an array of two nodes: tail and head
+        self.__maxInt = 10000000
 
     #Overloaded methods
     def __str__(self):
@@ -89,6 +90,29 @@ class Graph:
                     Q.append(node)
             if Q==[]:
                 return False
+
+    # Dijkstra algorithm    
+    def SPT(self,r):
+        # Initialization
+        n = len(self.__nodes)
+        P = n*[None]
+        d = n*[None]
+        for i in range(n):
+            P[i] = r
+            if i==0:
+                d[i] = 0
+            else:
+                d[i] = self.__maxInt
+        Q = [r]
+
+        m = min[d]
+        idx = 0
+        for i in range(n):
+            if m==d[i]:
+                idx = i
+        
+        
+        
 
     def isConnected(self):
         # returns True if the graph is fully connected
